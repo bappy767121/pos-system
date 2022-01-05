@@ -17,9 +17,9 @@ class CreatePaymentsTable extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->foreignId('admin_id');
-            $table->double('automount');
+            $table->double('amount');
             $table->date('date');
-            $table->string('note');
+            $table->string('note')->nullable();
             $table->timestamps();
         });
     }

@@ -1,6 +1,7 @@
 @extends('layout.main')
 
 @section('mainContent')
+
 <!-- Begin Page Content -->
             <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -8,10 +9,10 @@
                     <!-- Page Heading -->
                 <div class="row clearfix">
                     <div class="col-md-6">
-                      <h1 class="h3 mb-2 text-gray-800">User Groups</h1>  
+                      <h1 class="h3 mb-2 text-gray-800">products</h1>  
                     </div>
                     <div class="col-md-6 text-right">
-                      <a class="btn btn-info" href="{{ url('groups/create') }}"> <i class="fa fa-plus"></i> New Groupe</a>  
+                      <a class="btn btn-info" href="{{ url('products/create') }}"> <i class="fa fa-plus"></i> New product</a>  
                     </div>
                 </div>
                     <!-- DataTales Example -->
@@ -24,32 +25,43 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Id</th>
                                             <th>Title</th>
-                                            <th>Action</th>
+                                            <th>Category</th>
+                                            <th>Description</th>
+                                            <th>Price</th>
+                                            <th>Cost Price</th>
+                                            <th>Actuion</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th>Id</th>
-                                            <th>Title</th>
-                                            <th>Action</th>
+                                             <th>Title</th>
+                                            <th>Category</th>
+                                            <th>Description</th>
+                                            <th>Price</th>
+                                            <th>Cost Price</th>
+                                            <th>Actuion</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                    	@foreach ($groups as $group)
+                                        @foreach ($products as $product)
                                         <tr>
-                                            <td>{{$group->id}}</td>
-                                            <td>{{$group->title}}</td>
+                                            <td>{{$product->title}}</td>
+                                            <td>{{optional($product->category)->title}}</td>
+                                            <td>{{$product->description}}</td>
+                                            <td>{{$product->price}}</td>
+                                            <td>{{$product->cost_price}}</td>
                                             <td class="text-right">
-                                                <form method="POST" action="{{ url('groups/'.$group->id) }}">
+                                                <form method="POST" action="{{  route('products.destroy', ['product' => $product->id]) }}"> 
+                                                <a class="btn btn-info" href="{{ route('products.show', ['product' => $product->id])}}"><i class="fa fa-eye"></i></a> 
+                                                <a class="btn btn-info" href="{{ route('products.edit', ['product' => $product->id])}}"><i class="fa fa-edit"></i></a>
                                                  @csrf
                                                  @method('DELETE')
-                                                 <button onclick="return confirm('Are you sure?')" type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Delete</button>  
+                                                 <button onclick="return confirm('Are you sure?')" type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>  
                                                 </form>
                                             </td>   
                                         </tr>
-                                    	@endforeach
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>

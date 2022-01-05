@@ -1,14 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Http\Requests\CreatUserRequest;
 
 use Illuminate\Http\Request;
-use App\User;
-use App\Group;
+use App\Category;
 use Session;
 
-class UserController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +15,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $this->data['users'] = User::all();
-        return view('users.users', $this->data);
+        $this->data['categories']= Category::all();
+        return view('category.categories', $this->data);
     }
 
     /**
@@ -28,10 +26,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        $this->data['groups']=Group::arrayForSelect();
         $this->data['mode']         = 'create';
-        $this->data['headline']     = 'Add New User';
-        return view('users.create', $this->data);
+        $this->data['headline']     = 'Add New Category';
+        return view('category.create',$this->data);
     }
 
     /**
@@ -40,15 +37,15 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreatUserRequest $request)
+    public function store(Request $request)
     {
         $data= $request->all();
 
-        if(User::create($data))
+        if(Category::create($data))
             {
-                Session::flash('message', 'New User Created Succesfully');
+                Session::flash('message', 'New Category Created Succesfully');
             }
-        return redirect()->to('users');
+        return redirect()->to('categories');
     }
 
     /**
@@ -59,8 +56,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $this->data['user']= User::find($id);
-        return view('users.show', $this->data);
+        //
     }
 
     /**
@@ -71,12 +67,11 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-       $this->data['user']         = User::findOrFail($id);
-        $this->data['groups']       = Group::arrayForSelect();
+        $this->data['category']   = Category::findOrFail($id);
         $this->data['mode']         = 'edit';
         $this->data['headline']     = 'Update Information';
 
-        return view('users.create', $this->data);
+        return view('category.create', $this->data);
     }
 
     /**
@@ -88,20 +83,15 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-         $data               = $request->all();
+        $data               = $request->all();
 
-        $user               = User::find($id);
-        $user->group_id     = $data['group_id'];
-        $user->name         = $data['name'];
-        $user->email        = $data['email'];
-        $user->phone        = $data['phone'];
-        $user->address      = $data['address'];
+        $category              = Category::find($id);
+        $category->title         = $data['title'];
 
-        if( $user->save() ) {
-            Session::flash('message', 'User Updated Successfully');
+        if( $category->save() ) {
+            Session::flash('message', 'Category Updated Successfully');
         }
-        
-        return redirect()->to('users');
+        return redirect()->to('categories');
     }
 
     /**
@@ -112,10 +102,10 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        if( User::find($id)->delete() ) {
+        if( Category::find($id)->delete() ) {
             Session::flash('message', 'User Deleted Successfully');
         }
         
-        return redirect()->to('users');
+        return redirect()->to('categories');
     }
 }

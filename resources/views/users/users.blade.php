@@ -3,14 +3,11 @@
 @section('mainContent')
 
 <!-- Begin Page Content -->
+    <div class="container-fluid">
             <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
             <div class="container-fluid">
-                @if(session('message'))
-                <div class=" col-md-6 alert alert-success" role="alert">
-                    {{session('message') }}
-                </div>
-                @endif
+               
                     <!-- Page Heading -->
                 <div class="row clearfix">
                     <div class="col-md-6">
@@ -54,13 +51,14 @@
                                         @foreach ($users as $user)
                                         <tr>
                                             <td>{{$user->id}}</td>
-                                            <td>{{$user->group->title}}</td>
+                                            <td>{{ optional($user->group)->title }}</td>
                                             <td>{{$user->name}}</td>
                                             <td>{{$user->email}}</td>
                                             <td>{{$user->phone}}</td>
                                             <td>{{$user->address}}</td>
                                             <td class="text-right">
-                                                <form method="POST" action="{{  route('users.destroy', ['user' => $user->id]) }}">  
+                                                <form method="POST" action="{{  route('users.destroy', ['user' => $user->id]) }}"> 
+                                                <a class="btn btn-info" href="{{ route('users.show', ['user' => $user->id])}}"><i class="fa fa-eye"></i></a> 
                                                 <a class="btn btn-info" href="{{ route('users.edit', ['user' => $user->id])}}"><i class="fa fa-edit"></i></a>
                                                  @csrf
                                                  @method('DELETE')
@@ -81,4 +79,5 @@
             </div>
 
             <!-- End of Main Content -->
+    </div>
 @stop

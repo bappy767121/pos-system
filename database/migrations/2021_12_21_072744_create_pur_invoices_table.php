@@ -19,6 +19,7 @@ class CreatePurInvoicesTable extends Migration
             $table->foreignId('admin_id');
             $table->string('challan_no')->nullable();
             $table->date('date');
+            $table->string('note')->nullable();
             $table->timestamps();
         });
     }
